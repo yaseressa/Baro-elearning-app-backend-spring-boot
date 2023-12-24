@@ -3,27 +3,28 @@ import com.example.elearning_app.models.course.Course;
 import com.example.elearning_app.models.course.CourseRepository;
 import com.example.elearning_app.models.user.User;
 import com.example.elearning_app.models.user.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final CourseRepository courseRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, CourseRepository courseRepository) {
-        this.userRepository = userRepository;
-        this.courseRepository = courseRepository;
-    }
 
     public List<User> users() {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUser(String email) {
-        return userRepository.findUserByEmail(email);
+    public User getUser(String email) {
+        return userRepository.findUserByEmail(email).get();
     }
 
     public void deleteUser(int id) {
@@ -34,7 +35,8 @@ public class UserService {
         var uUser = userRepository.getReferenceById(id);
         uUser.setName(user.getName());
         uUser.setEmail(user.getEmail());
-        uUser.setPassword(user.getPassword());
+        if(user.getPassword() != null && !user.getPassword().equals(""))
+            uUser.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(uUser);
     }
     public User createUser(User user) {

@@ -16,13 +16,13 @@ import java.util.Optional;
 public class UserAuthController {
     private final AuthService service;
 
-    @PostMapping("/register")
+    @PostMapping("/signup")
     public ResponseEntity<AuthResponse> register(
             @RequestBody RegisterReq request
     ) {
         return ResponseEntity.ok(service.register(request));
     }
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public ResponseEntity<AuthResponse> authenticate(
             @RequestBody AuthRequest request
     ) {

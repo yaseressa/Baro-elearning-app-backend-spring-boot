@@ -26,7 +26,7 @@ public class User implements UserDetails {
     private String password;
     @ManyToMany
     @JoinTable(name = "Enrollment", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "course_id"))
-    private Set<Course> enrolledCourses = new HashSet<>();
+    private List<Course> enrolledCourses = new ArrayList<>();
     @Enumerated(EnumType.STRING)
     private Role role = Role.USER;
     public User(String name, String email, String password) {

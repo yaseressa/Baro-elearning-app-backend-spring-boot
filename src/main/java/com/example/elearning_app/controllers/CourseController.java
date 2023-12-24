@@ -22,6 +22,10 @@ public class CourseController {
     public List<Course> index() {
         return courseService.courses();
     }
+    @GetMapping("/trending")
+    public List<Course> trendingIndex() {
+        return courseService.TrendingCourses();
+    }
     @PostMapping
     public Course create(@RequestBody Course course) {
         return courseService.createCourse(course);
@@ -44,6 +48,10 @@ public class CourseController {
     @PostMapping("/{id}/{lessonId}")
     public Course addLesson(@PathVariable int id, @PathVariable int lessonId) {
         return courseService.addLesson(id, lessonId);
+    }
+    @PostMapping("/{id}/q/{quizId}")
+    public Course addQuiz(@PathVariable int id, @PathVariable int quizId) {
+        return courseService.addQuiz(id, quizId);
     }
 
 }

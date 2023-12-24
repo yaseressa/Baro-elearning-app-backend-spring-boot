@@ -19,23 +19,27 @@ public class Course {
     @GeneratedValue
     @Column(name = "course_id")
     private int courseId;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
     private String description;
     private String imgSrc;
     @JsonIgnore
     @ManyToMany(mappedBy = "enrolledCourses")
-    private Set<User> students = new HashSet<>();
+    private Set<User> students = new LinkedHashSet<>();
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Lesson> lessons;
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Quiz> quizzes;
 
-    public Course( String name, String description, String imgSrc, Set<Lesson> lessons) {
+    public Course( String name, String imgSrc, String description, Set<Lesson> lessons, Set<Quiz> quizzes) {
         this.name = name;
         this.description = description;
         this.imgSrc = imgSrc;
         this.lessons = lessons;
+        this.quizzes = quizzes;
+    }
+    public int getStudents() {
+        return students.size();
     }
 
 }

@@ -19,6 +19,7 @@ public class Lesson {
     private int lessonId;
     @Column(nullable = false)
     private String title;
+    @Column(columnDefinition = "TEXT")
     private String content;
 
 

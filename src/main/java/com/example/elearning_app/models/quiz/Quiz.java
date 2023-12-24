@@ -1,6 +1,7 @@
 package com.example.elearning_app.models.quiz;
 import com.example.elearning_app.models.course.Course;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,8 +20,8 @@ public class Quiz {
     @Column(nullable = false)
     private String answers;
     private int correct;
-    @JsonBackReference
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "course_id")
     private Course course;
 
 
@@ -29,6 +30,9 @@ public class Quiz {
         this.answers = answers;
         this.correct = correct;
     }
-
+    @JsonIgnore
+    public Course getCourse() {
+        return course;
+    }
 
 }
